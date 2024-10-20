@@ -6147,11 +6147,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/kamolshermatov096/Documents/Projects_G8/WebRestaurantManagement/WebRestaurantManagement.csproj",
+      "projectUniqueName": "/Users/kamolshermatov096/Documents/Projects_G8/RestaurantWebApplication/RestaurantWebApplication/WebRestaurantManagement/WebRestaurantManagement.csproj",
       "projectName": "WebRestaurantManagement",
-      "projectPath": "/Users/kamolshermatov096/Documents/Projects_G8/WebRestaurantManagement/WebRestaurantManagement.csproj",
+      "projectPath": "/Users/kamolshermatov096/Documents/Projects_G8/RestaurantWebApplication/RestaurantWebApplication/WebRestaurantManagement/WebRestaurantManagement.csproj",
       "packagesPath": "/Users/kamolshermatov096/.nuget/packages/",
-      "outputPath": "/Users/kamolshermatov096/Documents/Projects_G8/WebRestaurantManagement/obj/",
+      "outputPath": "/Users/kamolshermatov096/Documents/Projects_G8/RestaurantWebApplication/RestaurantWebApplication/WebRestaurantManagement/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/kamolshermatov096/.nuget/NuGet/NuGet.Config"

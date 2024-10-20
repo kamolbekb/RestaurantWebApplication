@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tp+5DlfFdAyLXfW0btfAaYzQxOGEeDMgcF/TDL5dw8Ve7DnN8sve2m35YVSKEvZBJwLLAx9R380hEM8DdKjixw==",
+  "dgSpecHash": "+MeW3uSgjl7nuG2zuY9KdrGSijlu152tXaQZ0kMdsykdCh1zUxjxOBdhuxNwDmFR99z+TBoyD68jJmjVWgu1lQ==",
   "success": true,
-  "projectFilePath": "/Users/kamolshermatov096/Documents/Projects_G8/WebRestaurantManagement/WebRestaurantManagement.csproj",
+  "projectFilePath": "/Users/kamolshermatov096/Documents/Projects_G8/RestaurantWebApplication/RestaurantWebApplication/WebRestaurantManagement/WebRestaurantManagement.csproj",
   "expectedPackageFiles": [
     "/Users/kamolshermatov096/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/kamolshermatov096/.nuget/packages/microsoft.aspnetcore.openapi/7.0.20/microsoft.aspnetcore.openapi.7.0.20.nupkg.sha512",
