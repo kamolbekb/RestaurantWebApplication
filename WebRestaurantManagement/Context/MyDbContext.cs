@@ -15,13 +15,29 @@ public class MyDbContext : DbContext
     public virtual DbSet<Complaint> Complaints { get; set; }
     public virtual DbSet<Menu> Menus { get; set; }
     
+    public virtual DbSet<Recipe> Recipes { get; set; }
     public virtual DbSet<Customer> Customers { get; set; }
+    
     public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
     {
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Recipe>(entity =>
+        {
+            entity.HasKey(r => r.Id);
+
+            entity.HasOne(e => e.Order)
+                .WithOne(o => o.Recipe)
+                .HasForeignKey<Recipe>(o => o.OrderId);
+
+            entity.HasMany(o => o.OrderDetails)
+                .WithOne(r => r.Recipe)
+                .HasForeignKey(r => r.RecipeId);
+
+
+        });
         modelBuilder.Entity<Menu>(entity =>
         {
             entity.HasKey(m=>m.Id).HasName("pk_menus");
@@ -41,6 +57,12 @@ public class MyDbContext : DbContext
                 .HasForeignKey(f=>f.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_customer_complaints");
+
+            entity.HasOne(e => e.Report)
+                .WithMany(c => c.Complaints)
+                .HasForeignKey(f => f.ReportId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_report_complaints");
 
             entity.HasData(
                 new Complaint{Id = 1,CustomerId = 2,ComplaintSource = "Very old bread",Date = new DateOnly( 2020, 1, 10)}
@@ -62,21 +84,22 @@ public class MyDbContext : DbContext
         {
             entity.HasKey(c => c.Id).HasName("pk_categories");
             
-            entity.HasOne(m=>m.Menu).WithMany(c=>Categories)
+            entity.HasOne(m=>m.Menu)
+                .WithMany(c=>c.Categories)
                 .HasForeignKey(c=>c.MenuId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_menu_categories");
 
             entity.HasData(
 
-                new Category { Id = 1, Name = "Appetizers",MenuId = 1,MealsCount = 2 },
-                new Category { Id = 2, Name = "Main Courses", MenuId = 1,MealsCount = 3 }
+                new Category { Id = 1, Name = "Appetizers",MenuId = 1 },
+                new Category { Id = 2, Name = "Main Courses", MenuId = 1 }
             );
         });
 
         modelBuilder.Entity<Report>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(k=>k.Id);
         });
 
         modelBuilder.Entity<Waiter>(entity =>
@@ -102,6 +125,12 @@ public class MyDbContext : DbContext
                 .HasForeignKey(f=>f.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_customer_orders");
+            
+            entity.HasOne(r=>r.Report)
+                .WithMany(o=>o.Orders)
+                .HasForeignKey(f=>f.ReportId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_order_reports");
 
             entity.HasData(
                 new Order { Id = 1,CustomerId = 1,OrderDateTime = new DateOnly(2023, 10, 1), WaiterId = 1 },
@@ -131,7 +160,6 @@ public class MyDbContext : DbContext
             );
         });
         
-
         modelBuilder.Entity<Meal>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("pk_meals");
@@ -148,5 +176,6 @@ public class MyDbContext : DbContext
                 new Meal { Id = 5, Name = "Steak",Price = 15.00, Describtion = "Grilled beef steak", CategoryId = 2 }
             );
         });
+
     }
 }

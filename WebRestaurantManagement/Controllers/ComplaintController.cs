@@ -6,7 +6,7 @@ using WebRestaurantManagement.Models;
 namespace WebRestaurantManagement.Controllers;
 [ApiController]
 [Route("[controller]")]
-public class ComplaintController
+public class ComplaintController : ControllerBase
 {
     private readonly MyDbContext _context;
 

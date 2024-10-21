@@ -7,7 +7,7 @@ using WebRestaurantManagement.Models;
 namespace WebRestaurantManagement.Controllers;
 [ApiController]
 [Route("[controller]")]
-public class MenuController
+public class MenuController : ControllerBase
 {
     private readonly MyDbContext _context;
 
