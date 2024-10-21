@@ -11,12 +11,25 @@ public class MyDbContext : DbContext
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
     public virtual DbSet<Waiter> Waiters { get; set; }
 
+    public virtual DbSet<Report> Reports { get; set; }
+    
+    public virtual Menu Menu { get; set; }
     public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
     {
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Menu>(entity =>
+        {
+            entity.HasNoKey();
+        });
+
+        modelBuilder.Entity<Report>(entity =>
+        {
+            entity.HasKey(r=>r.Id)
+        });
+        
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(c => c.Id).HasName("pk_categories");
@@ -26,6 +39,11 @@ public class MyDbContext : DbContext
                 new Category { Id = 1, Name = "Appetizers", MealsCount = 2 },
                 new Category { Id = 2, Name = "Main Courses", MealsCount = 3 }
             );
+        });
+
+        modelBuilder.Entity<Report>(entity =>
+        {
+            entity.HasNoKey();
         });
 
         modelBuilder.Entity<Waiter>(entity =>
@@ -83,46 +101,12 @@ public class MyDbContext : DbContext
                 .HasConstraintName("fk_meals_categories");
 
             entity.HasData(
-                new Meal { Id = 1, Name = "Bruschetta", Describtion = "Grilled bread with toppings", CategoryId = 1 },
-                new Meal { Id = 2, Name = "Garlic Bread", Describtion = "Toasted bread with garlic", CategoryId = 1 },
-                new Meal { Id = 3, Name = "Grilled Chicken", Describtion = "Chicken with herbs", CategoryId = 2 },
-                new Meal { Id = 4, Name = "Pasta Carbonara", Describtion = "Creamy pasta with bacon", CategoryId = 2 },
-                new Meal { Id = 5, Name = "Steak", Describtion = "Grilled beef steak", CategoryId = 2 }
+                new Meal { Id = 1, Name = "Bruschetta", Price = 5.50,Describtion = "Grilled bread with toppings", CategoryId = 1 },
+                new Meal { Id = 2, Name = "Garlic Bread",Price = 3.50, Describtion = "Toasted bread with garlic", CategoryId = 1 },
+                new Meal { Id = 3, Name = "Grilled Chicken",Price = 12.00, Describtion = "Chicken with herbs", CategoryId = 2 },
+                new Meal { Id = 4, Name = "Pasta Carbonara",Price = 8.50, Describtion = "Creamy pasta with bacon", CategoryId = 2 },
+                new Meal { Id = 5, Name = "Steak",Price = 15.00, Describtion = "Grilled beef steak", CategoryId = 2 }
             );
         });
-        
-        // modelBuilder.Entity<Category>().HasData(
-        //     new Category { Id = 1, Name = "Appetizers", MealsCount = 2 },
-        //     new Category { Id = 2, Name = "Main Courses", MealsCount = 3 }
-        // );
-        //
-        // // Seeding Meals
-        // modelBuilder.Entity<Meal>().HasData(
-        //     new Meal { Id = 1, Name = "Bruschetta", Describtion = "Grilled bread with toppings", CategoryId = 1 },
-        //     new Meal { Id = 2, Name = "Garlic Bread", Describtion = "Toasted bread with garlic", CategoryId = 1 },
-        //     new Meal { Id = 3, Name = "Grilled Chicken", Describtion = "Chicken with herbs", CategoryId = 2 },
-        //     new Meal { Id = 4, Name = "Pasta Carbonara", Describtion = "Creamy pasta with bacon", CategoryId = 2 },
-        //     new Meal { Id = 5, Name = "Steak", Describtion = "Grilled beef steak", CategoryId = 2 }
-        // );
-        //
-        // // Seeding Waiters
-        // modelBuilder.Entity<Waiter>().HasData(
-        //     new Waiter { Id = 1, Name = "John Doe", HireDate = new DateOnly(2020, 1, 10), Address = "123 Main St" },
-        //     new Waiter { Id = 2, Name = "Jane Smith", HireDate = new DateOnly(2019, 5, 20), Address = "456 Elm St" }
-        // );
-        //
-        // // Seeding Orders
-        // modelBuilder.Entity<Order>().HasData(
-        //     new Order { Id = 1, OrderDateTime = new DateOnly(2023, 10, 1), WaiterId = 1 },
-        //     new Order { Id = 2, OrderDateTime = new DateOnly(2023, 10, 2), WaiterId = 2 }
-        // );
-        //
-        // // Seeding OrderDetails
-        // modelBuilder.Entity<OrderDetail>().HasData(
-        //     new OrderDetail { OrderId = 1, MealId = 1, UnitPrice = 5.50, Count = 2 },
-        //     new OrderDetail { OrderId = 1, MealId = 3, UnitPrice = 12.00, Count = 1 },
-        //     new OrderDetail { OrderId = 2, MealId = 4, UnitPrice = 8.50, Count = 1 },
-        //     new OrderDetail { OrderId = 2, MealId = 5, UnitPrice = 15.00, Count = 2 }
-        // );
     }
 }

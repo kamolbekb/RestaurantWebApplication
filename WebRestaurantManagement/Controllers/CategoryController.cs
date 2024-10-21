@@ -14,6 +14,7 @@ public class CategoryController : ControllerBase
     {
         _context = context;
     }
+    
     [HttpGet("All")]
     public async Task<IEnumerable<Category>> GetCategories()
     {

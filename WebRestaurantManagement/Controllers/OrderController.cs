@@ -29,8 +29,7 @@ public class OrderController : ControllerBase
             .ThenInclude(i=>i.Meal)
             .ToListAsync();
     }
-
-    // GET: api/category/{id}
+    
     [HttpGet("{id}")]
     public async Task<ActionResult<Order>> GetOrder(int id)
     {
