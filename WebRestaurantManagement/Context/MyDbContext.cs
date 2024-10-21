@@ -20,11 +20,22 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(c => c.Id).HasName("pk_categories");
+
+            entity.HasData(
+
+                new Category { Id = 1, Name = "Appetizers", MealsCount = 2 },
+                new Category { Id = 2, Name = "Main Courses", MealsCount = 3 }
+            );
         });
 
         modelBuilder.Entity<Waiter>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("pk_waiters");
+
+            entity.HasData(
+                new Waiter { Id = 1, Name = "John Doe", HireDate = new DateOnly(2020, 1, 10), Address = "123 Main St" },
+                new Waiter { Id = 2, Name = "Jane Smith", HireDate = new DateOnly(2019, 5, 20), Address = "456 Elm St" }
+            );
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -34,6 +45,11 @@ public class MyDbContext : DbContext
             entity.HasOne(d => d.Waiter).WithMany(e => e.Orders)
                 .HasForeignKey(d => d.WaiterId)
                 .HasConstraintName("fk_orders_waiters");
+
+            entity.HasData(
+                new Order { Id = 1, OrderDateTime = new DateOnly(2023, 10, 1), WaiterId = 1 },
+                new Order { Id = 2, OrderDateTime = new DateOnly(2023, 10, 2), WaiterId = 2 }
+            );
         });
 
         modelBuilder.Entity<OrderDetail>(entity =>
@@ -49,6 +65,13 @@ public class MyDbContext : DbContext
                 .HasForeignKey(d => d.MealId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_order_details_meals");
+
+            entity.HasData(
+                new OrderDetail { OrderId = 1, MealId = 1, UnitPrice = 5.50, Count = 2 },
+                new OrderDetail { OrderId = 1, MealId = 3, UnitPrice = 12.00, Count = 1 },
+                new OrderDetail { OrderId = 2, MealId = 4, UnitPrice = 8.50, Count = 1 },
+                new OrderDetail { OrderId = 2, MealId = 5, UnitPrice = 15.00, Count = 2 }
+            );
         });
 
         modelBuilder.Entity<Meal>(entity =>
@@ -58,6 +81,48 @@ public class MyDbContext : DbContext
             entity.HasOne(e => e.Category).WithMany(p => p.Meals)
                 .HasForeignKey(e => e.CategoryId)
                 .HasConstraintName("fk_meals_categories");
+
+            entity.HasData(
+                new Meal { Id = 1, Name = "Bruschetta", Describtion = "Grilled bread with toppings", CategoryId = 1 },
+                new Meal { Id = 2, Name = "Garlic Bread", Describtion = "Toasted bread with garlic", CategoryId = 1 },
+                new Meal { Id = 3, Name = "Grilled Chicken", Describtion = "Chicken with herbs", CategoryId = 2 },
+                new Meal { Id = 4, Name = "Pasta Carbonara", Describtion = "Creamy pasta with bacon", CategoryId = 2 },
+                new Meal { Id = 5, Name = "Steak", Describtion = "Grilled beef steak", CategoryId = 2 }
+            );
         });
+        
+        // modelBuilder.Entity<Category>().HasData(
+        //     new Category { Id = 1, Name = "Appetizers", MealsCount = 2 },
+        //     new Category { Id = 2, Name = "Main Courses", MealsCount = 3 }
+        // );
+        //
+        // // Seeding Meals
+        // modelBuilder.Entity<Meal>().HasData(
+        //     new Meal { Id = 1, Name = "Bruschetta", Describtion = "Grilled bread with toppings", CategoryId = 1 },
+        //     new Meal { Id = 2, Name = "Garlic Bread", Describtion = "Toasted bread with garlic", CategoryId = 1 },
+        //     new Meal { Id = 3, Name = "Grilled Chicken", Describtion = "Chicken with herbs", CategoryId = 2 },
+        //     new Meal { Id = 4, Name = "Pasta Carbonara", Describtion = "Creamy pasta with bacon", CategoryId = 2 },
+        //     new Meal { Id = 5, Name = "Steak", Describtion = "Grilled beef steak", CategoryId = 2 }
+        // );
+        //
+        // // Seeding Waiters
+        // modelBuilder.Entity<Waiter>().HasData(
+        //     new Waiter { Id = 1, Name = "John Doe", HireDate = new DateOnly(2020, 1, 10), Address = "123 Main St" },
+        //     new Waiter { Id = 2, Name = "Jane Smith", HireDate = new DateOnly(2019, 5, 20), Address = "456 Elm St" }
+        // );
+        //
+        // // Seeding Orders
+        // modelBuilder.Entity<Order>().HasData(
+        //     new Order { Id = 1, OrderDateTime = new DateOnly(2023, 10, 1), WaiterId = 1 },
+        //     new Order { Id = 2, OrderDateTime = new DateOnly(2023, 10, 2), WaiterId = 2 }
+        // );
+        //
+        // // Seeding OrderDetails
+        // modelBuilder.Entity<OrderDetail>().HasData(
+        //     new OrderDetail { OrderId = 1, MealId = 1, UnitPrice = 5.50, Count = 2 },
+        //     new OrderDetail { OrderId = 1, MealId = 3, UnitPrice = 12.00, Count = 1 },
+        //     new OrderDetail { OrderId = 2, MealId = 4, UnitPrice = 8.50, Count = 1 },
+        //     new OrderDetail { OrderId = 2, MealId = 5, UnitPrice = 15.00, Count = 2 }
+        // );
     }
 }
