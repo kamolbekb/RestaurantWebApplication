@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebRestaurantManagement.Context;
@@ -6,50 +7,50 @@ using WebRestaurantManagement.Models;
 namespace WebRestaurantManagement.Controllers;
 [ApiController]
 [Route("[controller]")]
-public class CustomerController
+public class MenuController
 {
     private readonly MyDbContext _context;
 
-    public CustomerController(MyDbContext context)
+    public MenuController(MyDbContext context)
     {
         _context = context;
     }
-    
-    [HttpGet("All Customer")]
-    public List<Customer> GetCustomers()
+
+    [HttpGet("All menus")]
+    public List<Menu> GetMenus()
     {
-        return _context.Customers.ToList();
+        return _context.Menus.ToList();
     }
 
     [HttpGet("Id")]
-    public Customer GetCustomerByIdAsync(int id)
+    public Menu GetMenuByIdAsync(int id)
     {
-        var customer =  _context.Customers.FirstOrDefault(m => m.Id == id);
-        return customer;
+        var menu =  _context.Menus.FirstOrDefault(m => m.Id == id);
+        return menu;
     }
 
     [HttpPost]
-    public async Task<string> PostCustomersAsync(Customer customer)
+    public async Task<string> PostMenuAsync(Menu menu)
     {
-        if (customer == null)
+        if (menu == null)
         {
-            return "Customer can't be null!";
+            return "Meal can't be null!";
         }
 
-        _context.Customers.Add(customer);
+        _context.Menus.Add(menu);
         await _context.SaveChangesAsync();
         return "Success!";
     }
 
     [HttpPut("{id}")]
-    public async Task<string> UpdateComplaint(int id, Customer customer)
+    public async Task<string> UpdateMenu(int id, Menu menu)
     {
-        if (id != customer.Id)
+        if (id != menu.Id)
         {
-            return "Customer Id does not match.";
+            return "Meal Id does not match.";
         }
 
-        _context.Entry(customer).State = EntityState.Modified;
+        _context.Entry(menu).State = EntityState.Modified;
 
         try
         {
@@ -57,7 +58,7 @@ public class CustomerController
         }
         catch (DbUpdateConcurrencyException e)
         {
-            return $"Customer with Id {id} not found: {e.Message}";
+            return $"Meal with Id {id} not found: {e.Message}";
         }
         catch (Exception e)
         {
@@ -68,15 +69,15 @@ public class CustomerController
     }
 
     [HttpDelete("Id")]
-    public async Task<string> DeleteCustomerAsync(int id)
+    public async Task<string> DeleteMenuAsync(int id)
     {
-        var customer = await _context.Customers.FirstOrDefaultAsync(i => i.Id == id);
-        if (customer == null)
+        var menu = await _context.Menus.FirstOrDefaultAsync(i => i.Id == id);
+        if (menu == null)
         {
             return "Not found";
         }
 
-        _context.Customers.Remove(customer);
+        _context.Menus.Remove(menu);
         await _context.SaveChangesAsync();
 
         return "Success";

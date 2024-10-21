@@ -9,5 +9,7 @@ public class Category
     [Required]
     public string Name { get; set; }
     public int? MealsCount { get; set; }
+    public int MenuId { get; set; }
     public virtual ICollection<Meal> Meals { get; set; } = new List<Meal>();
+    public virtual Menu Menu { get; set; } 
 }
